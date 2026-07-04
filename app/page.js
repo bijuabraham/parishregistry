@@ -15,6 +15,7 @@ import {
   FinancialYearComparisonChart
 } from './components/Charts';
 import MemberModal from './components/MemberModal';
+import { generateRegistryPDF } from './utils/generateRegistryPDF';
 
 // Dynamically import Leaflet Map to prevent SSR window reference error
 const LeafletMap = dynamic(() => import('./components/Map'), { 
@@ -149,6 +150,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [tableLoading, setTableLoading] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [generatingPDF, setGeneratingPDF] = useState(false);
 
   // Stats & Map State
   const [stats, setStats] = useState(null);
@@ -1192,6 +1194,17 @@ export default function DashboardPage() {
                   disabled={exporting}
                 >
                   {exporting ? '⏳ Exporting...' : '📥 Export CSV'}
+                </button>
+
+                <button
+                  className="export-button"
+                  onClick={() => generateRegistryPDF(setGeneratingPDF)}
+                  id="btn-download-pdf-registry"
+                  disabled={generatingPDF}
+                  style={{ background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)' }}
+                  title="Download full Parish Registry as PDF (one family per page)"
+                >
+                  {generatingPDF ? '⏳ Generating PDF...' : '📄 Download PDF Registry'}
                 </button>
               </div>
             </div>
