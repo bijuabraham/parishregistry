@@ -38,6 +38,7 @@ export async function GET() {
             FROM households h
             LEFT JOIN members m ON h.household_id = m.household_id
             ORDER BY
+                NULLIF(h.prayer_group, '') ASC NULLS LAST,
                 h.last_name  ASC,
                 h.first_name ASC,
                 CASE m.relationship
