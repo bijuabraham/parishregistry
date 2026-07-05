@@ -1902,7 +1902,7 @@ export default function DashboardPage() {
                       )}
                     </div>
                   </div>
-                  <div className="table-wrapper" style={{ maxHeight: '420px', overflow: 'auto' }}>
+                  <div className="table-wrapper" style={{ maxHeight: '700px', overflow: 'auto' }}>
                     {!filteredFinancialData?.nonDonors || filteredFinancialData.nonDonors.length === 0 ? (
                       <div className="empty-state" style={{ padding: '32px' }}>
                         <div className="empty-icon">🎉</div>
