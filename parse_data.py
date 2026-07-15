@@ -270,6 +270,14 @@ def parse_and_load():
                 m_first_name = row[mem_col]
                 if pd.notnull(m_first_name):
                     m_first_name = str(m_first_name).strip()
+                    # If the first name field contains a space, treat the second part as the last name
+                    # and do NOT fall back to the household's last name
+                    if ' ' in m_first_name:
+                        parts = m_first_name.split(' ', 1)
+                        m_first_name = parts[0].strip()
+                        m_last_name = parts[1].strip()
+                    else:
+                        m_last_name = last_name
                     m_rel = str(row.get(f"Relationship{i}")).strip() if pd.notnull(row.get(f"Relationship{i}")) else None
                     m_gender = str(row.get(f"Gender{i}")).strip() if pd.notnull(row.get(f"Gender{i}")) else None
                     
@@ -300,7 +308,7 @@ def parse_and_load():
                         other_email, home_phone, work_phone, status, date_added, status_date
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, (
-                        hh_id, i, m_first_name, last_name, m_rel, m_gender,
+                        hh_id, i, m_first_name, m_last_name, m_rel, m_gender,
                         m_birth, m_age, m_marr, m_mobile, m_email, m_work_email,
                         m_other_email, m_home_phone, m_work_phone, m_status, m_added, m_status_date
                     ))
